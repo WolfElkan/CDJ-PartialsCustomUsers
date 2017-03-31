@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html ng-app='app'> 
+	<head>
+		<title></title>
+ <!-- THESE TWO VERSIONS BELOW MUST MATCH (good thing bower will catch that for us, but be aware if you are using CDN's)!!! -->
+ 		<link rel="stylesheet" type="text/css" href="static/dojo-table.css">
+ 		<style type="text/css">
+
+ 			#view {
+ 				border: solid black 1px;
+ 			}
+ 		
+ 		</style>
+		<script src="angular/angular.js"></script>
+		<script src="angular-route/angular-route.js"></script>
+		<script>
+			//  inject the ngRoute dependency in the module.
+			var app = angular.module('app', ['ngRoute']);
+			//  use the config method to set up routing:
+			app.config(function ($routeProvider) {
+				$routeProvider
+					.when('/users',{
+						templateUrl: 'partials/users_new.html',
+						controller:  'users_new_cxr'
+					})
+					.when('/list',{
+						templateUrl: 'partials/users_all.html',
+						controller:  'users_all_cxr'
+					})
+					.otherwise({
+						redirectTo:  '/users'
+					});
+			});
+
+			var UserFactory = app.factory('UserFactory',[function() {
+				var factory = {}
+				var users = []
+
+				factory.new = {}
+
+				factory.all = function() {
+					return users
+				}
+
+				factory.get = function(callback) {
+					return callback(users)
+				}
+
+				factory.create = function() {
+					users.push(factory.new)
+					factory.new = {}
+					console.log(52)
+				}
+
+				factory.see = function() {
+					console.log(56)
+				}
+
+				factory.foo = 888
+
+				return factory
+			}])
+
+			//  I ought to use one controller.  Using two just to practice how.
+			app.controller('users_new_cxr', ['$scope', 'UserFactory', function ($scope) {
+				$scope.User = UserFactory
+				$scope.which = 'Just Read the Instructions'
+
+			}]);
+			app.controller('users_all_cxr', ['$scope', 'UserFactory', function ($scope) {
+				$scope.User = UserFactory
+				$scope.which = 'Of Course I Still Love You'
+			}]);
+		</script>
+	</head>
+	<body>
+		<div>
+			<a href="#!/users">Customize Users</a>  <a href="#!/list">User List</a>
+			<div ng-view id="view"></div>
+		</div>
+		<div>
+			<button ng-click="User.see()">Test</button>
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
