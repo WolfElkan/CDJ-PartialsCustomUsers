@@ -1,2 +1,12 @@
-<button ng-click="User.see()">Print All Users</button>
-{{User}}
+<table class="dojo-table">
+	<thead>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Fav Language</th>
+	</thead>
+	<tr ng-repeat="user in User.all()">
+		<td ng-bind="user.first_name"/>
+		<td ng-bind="user.last_name"/>
+		<td ng-bind="user.language"/>
+	</tr>
+</table>
